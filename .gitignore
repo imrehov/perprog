@@ -1,0 +1,44 @@
+# .NET build and publish output
+[Bb]in/
+[Oo]bj/
+[Aa]rtifacts/
+*.nupkg
+*.snupkg
+
+# Local IDE settings and caches
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+_ReSharper*/
+*.DotSettings.user
+.vscode/*.local.json
+
+# Test and coverage output
+[Tt]est[Rr]esults/
+coverage/
+coverage*.xml
+coverage*.json
+*.coverage
+*.coveragexml
+
+# NuGet restore output (keep custom package build targets)
+packages/*
+!packages/build/
+
+# Local secrets and publish credentials
+.env
+.env.*
+!.env.example
+*.pubxml
+*.publishsettings
+*.pfx
+*.p12
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
