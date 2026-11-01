@@ -128,10 +128,6 @@ class Program
                 {
                     orders.Add(order);
                     prepared++;
-
-                    System.Console.ForegroundColor = ConsoleColor.Green;
-                    System.Console.WriteLine($"Order #{prepared} was added! Currently waiting orders: {orders.Count()}\n");
-                    System.Console.ForegroundColor = ConsoleColor.White;
                 }
             }
 
@@ -155,9 +151,6 @@ class Program
                             : orders.MaxBy(o => o.DistanceFromRestaurant)!;
 
                         orders.Remove(chosen);
-                        System.Console.ForegroundColor = ConsoleColor.Red;
-                        System.Console.WriteLine($"An order was removed! Currently {orders.Count()} are waiting to be picked up.");
-                        System.Console.ForegroundColor = ConsoleColor.White;
                         return chosen;
                     }
 
