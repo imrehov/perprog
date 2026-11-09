@@ -1,4 +1,6 @@
-﻿namespace otdk;
+﻿using System.Text;
+
+namespace otdk;
 
 class Program
 {
@@ -27,46 +29,54 @@ class Program
 
         new Task(() =>
         {
-            while (hallgatok.Any( h => h.State != "Végzett"))
+            Console.CursorVisible = false;
+            try
             {
-                Console.Clear();
-                foreach (var t in Tagozat.Tagozatok)
+                while (hallgatok.Any(h => h.State != "Végzett."))
                 {
-                    Console.WriteLine($"{t.Id}: {t.PresentationCount}, {t.Allapot}, latogatok: {t.JelenlegiHallgatok.Count}");
-
-                    foreach (var h in hallgatok)
-                    {
-
-                        Console.WriteLine($"{h.Id}: {h.State}");
-                    }
-
-                    Console.WriteLine();
-
-                    Console.WriteLine("Az egyedi latogatasok osszesen: " + Tagozat.Tagozatok.Select(t => t.UniqueHallgatok.Count).Sum());
-
+                    Render(false);
                     Thread.Sleep(100);
                 }
-            }
 
-            Console.Clear();
-            foreach (var t in Tagozat.Tagozatok)
+                Render(true);
+            }
+            finally
             {
-                Console.WriteLine($"{t.Id}: {t.PresentationCount}, {t.Allapot}, latogatok: {t.JelenlegiHallgatok.Count}");
+                Console.CursorVisible = true;
             }
-
-            foreach (var h in hallgatok)
-            { 
-
-                Console.WriteLine($"{h.Id}: {h.State}");
-            }
-
-            Console.WriteLine();
-
-            Console.WriteLine("Az egyedi latogatasok osszesen: " + Tagozat.Tagozatok.Select(t => t.UniqueHallgatok.Count).Sum());
-
-            Console.WriteLine("Szimuláció vége");
         }, TaskCreationOptions.LongRunning).Start();
 
         Console.ReadLine();
+
+        void Render(bool finished)
+        {
+            // shortcut: clips to the terminal size; enlarge it to see every student and full status.
+            int width = Math.Max(1, Console.WindowWidth - 1);
+            int columnWidth = width / 2;
+            int rows = Math.Min(Math.Max(Tagozat.Tagozatok.Count, hallgatok.Count), Math.Max(0, Console.WindowHeight - 3));
+            var frame = new StringBuilder();
+
+            frame.AppendLine(("Tagozatok".PadRight(columnWidth) + "Hallgatók").PadRight(width)[..width]);
+            for (int i = 0; i < rows; i++)
+            {
+                string left = "";
+                if (i < Tagozat.Tagozatok.Count)
+                {
+                    var t = Tagozat.Tagozatok[i];
+                    left = $"{t.Id}: {t.PresentationCount}, {t.Allapot}, látogatók: {t.JelenlegiHallgatok.Count}";
+                }
+
+                string right = i < hallgatok.Count ? $"{hallgatok[i].Id}: {hallgatok[i].State}" : "";
+                frame.AppendLine((left.PadRight(columnWidth)[..columnWidth] + right).PadRight(width)[..width]);
+            }
+
+            int total = Tagozat.Tagozatok.Sum(t => t.UniqueHallgatok.Count);
+
+            frame.AppendLine($"Az egyedi látogatások összesen: {total}".PadRight(width)[..width]);
+            frame.Append((finished ? "Szimuláció vége" : "Szimuláció folyamatban").PadRight(width)[..width]);
+
+            Console.SetCursorPosition(0, 0);
+            Console.Write(frame.ToString());
+        }
     }
 }
