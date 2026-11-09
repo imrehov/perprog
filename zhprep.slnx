@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="democracy/democracy.csproj" />
   <Project Path="futar/futar.csproj" />
+  <Project Path="oltopont/oltopont.csproj" Id="0fd853c0-f623-4b22-8504-4b8f84a52048" />
   <Project Path="otdk/otdk.csproj" />
 </Solution>
