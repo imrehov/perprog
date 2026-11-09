@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="democracy/democracy.csproj" />
   <Project Path="futar/futar.csproj" />
+  <Project Path="otdk/otdk.csproj" />
 </Solution>
