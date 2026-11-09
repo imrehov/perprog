@@ -4,4 +4,6 @@ public enum TagozatAllapot
     Preparation,
     Presentation,
     Discussion,
+
+    Finished,
 }

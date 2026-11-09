@@ -2,5 +2,6 @@
 
 public static class Utils
 {
-    public static int HallgatoId = 0;
+    public static int TagozatId { get; set; } = 1;
+    public static int HallgatoId { get; set; } = 1;
 }
